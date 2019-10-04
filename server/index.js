@@ -1,7 +1,12 @@
 const express = require('express')
+const session = require('express-session')
+const FileStore = require('session-file-store')(session)
+const bodyParser = require('body-parser')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt-edge')
 const app = express()
+
+const api = require('./api/index')
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
@@ -20,6 +25,26 @@ async function start () {
   } else {
     await nuxt.ready()
   }
+
+  app.use(
+    bodyParser.urlencoded({
+      extended: true
+    })
+  )
+
+  app.use(bodyParser.json())
+
+  const sess = {
+    secret: 'dota-team',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+    store: new FileStore
+  }
+
+  app.use(session(sess))
+
+  app.use('/api', api)
 
   // Give nuxt middleware to express
   app.use(nuxt.render)

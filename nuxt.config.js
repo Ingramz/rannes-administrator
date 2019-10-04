@@ -23,11 +23,13 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    '~/scss/main.scss'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+     { src: '~/plugins/tooltip' }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -50,6 +52,10 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    proxy: true
+  },
+  proxy: {
+    '/api/': 'https://rannes-administrator.herokuapp.com'
   },
   /*
   ** Build configuration

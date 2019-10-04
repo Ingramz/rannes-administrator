@@ -1,0 +1,13 @@
+@import 'tooltip';
+
+.heading {
+  @apply text-2xl mb-5;
+}
+
+.btn {
+  @apply flex-shrink-0 bg-teal-500 border-teal-500 text-sm border-4 text-white py-1 px-2 rounded;
+
+  &:hover {
+    @apply bg-teal-700 border-teal-700;
+  }
+}

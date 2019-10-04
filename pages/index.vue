@@ -1,77 +1,48 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        rannes-administrator
+  <div>
+    <div v-for="article in articles" :key="article.title">
+      <h1 class="heading">
+        {{ article.title }}
       </h1>
-      <h2 class="subtitle">
-        Annoying wrapping paper
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <div class="content" v-html="article.content" />
+
+      <hr>
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
-  components: {
-    Logo
+  asyncData ({ $axios }) {
+    return $axios
+      .get('/api/guides')
+      .then(({ data }) => ({ articles: data }))
   }
 }
 </script>
 
-<style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-  @apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+<style lang="scss">
+.content {
+  h2 {
+    @apply text-xl mb-2 mt-4;
+  }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+  h4 {
+    @apply text-lg mb-2 mt-4;
+  }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
+  p {
+    @apply mb-2;
+  }
 
-.links {
-  padding-top: 15px;
+  a {
+    @apply text-teal-600;
+
+    &:hover {
+      @apply text-teal-700;
+    }
+  }
 }
 </style>
